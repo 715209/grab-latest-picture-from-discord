@@ -1,0 +1,6 @@
+{
+    "token": "YOURBOTTOKEN",
+    "channel": "YOURCHANNEL",
+    "watchUserId": "YOURUSERID",
+    "imgLocation": "./image.jpg"
+}

@@ -1,0 +1,24 @@
+{
+    "name": "grab-latest-image-from-discord",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/715209/grab-latest-image-from-discord.git"
+    },
+    "author": "Brian Spit",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/715209/grab-latest-image-from-discord/issues"
+    },
+    "homepage": "https://github.com/715209/grab-latest-image-from-discord#readme",
+    "dependencies": {
+        "discord.js": "^11.4.2",
+        "image-downloader": "^3.4.2"
+    }
+}
