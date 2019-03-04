@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>image</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #image {
+                opacity: 0;
+                transition: opacity 1s;
+            }
+
+            #image.show {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <img id="image" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="image" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script>
+            const socket = io("http://localhost:4000");
+            const img = document.getElementById("image");
+            const imgLocation = "./image.jpg";
+            const interval = 10;
+            let timeout;
+
+            socket.on("new", () => {
+                const url = `${imgLocation}?${Math.random()}`;
+                img.src = url;
+
+                img.classList.toggle("show");
+
+                timeout = setTimeout(() => {
+                    img.classList.toggle("show");
+                }, 1000 * interval);
+            });
+            // just super simple stuff.. not waiting for each image to finish..
+        </script>
+    </body>
+</html>

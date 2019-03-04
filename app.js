@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
 const download = require("image-downloader");
+const io = require("socket.io")();
 
 const client = new Discord.Client();
 const config = require("./config.json");
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`[Discord] Logged in as ${client.user.tag}!`);
 });
 
 client.on("message", msg => {
@@ -26,6 +27,7 @@ client.on("message", msg => {
                 })
                 .then(({ filename, image }) => {
                     console.log("File saved to", filename);
+                    io.emit("new");
                 })
                 .catch(err => {
                     console.error(err);
@@ -35,3 +37,5 @@ client.on("message", msg => {
 });
 
 client.login(config.token);
+io.listen(4000);
+console.log("[Websocket] listening on port", 4000);

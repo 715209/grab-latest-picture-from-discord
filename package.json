@@ -19,6 +19,7 @@
     "homepage": "https://github.com/715209/grab-latest-image-from-discord#readme",
     "dependencies": {
         "discord.js": "^11.4.2",
-        "image-downloader": "^3.4.2"
+        "image-downloader": "^3.4.2",
+        "socket.io": "^2.2.0"
     }
 }
