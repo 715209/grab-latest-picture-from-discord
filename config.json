@@ -1,6 +1,7 @@
 {
     "token": "YOURBOTTOKEN",
-    "channel": "YOURCHANNEL",
+    "channelId": "YOURCHANNELID",
     "watchUserId": "YOURUSERID",
-    "imgLocation": "./image.jpg"
+    "imgLocation": "./image.jpg",
+    "popupSeconds": 10
 }

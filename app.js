@@ -10,30 +10,38 @@ client.on("ready", () => {
 });
 
 client.on("message", msg => {
-    const channel = msg.channel.name === config.channel && msg.author.id === config.watchUserId ? true : false;
+    const channel = msg.channel.id === config.channelId && msg.author.id === config.watchUserId ? true : false;
     if (!channel) return;
 
     if (msg.attachments.size > 0) {
-        // let's just grab the last image for now
-        const lastImage = Array.from(msg.attachments.values()).pop();
         const imageReg = /[\/.](gif|jpg|jpeg|tiff|png)$/i;
-        const isImage = imageReg.test(lastImage.filename);
 
-        if (isImage) {
-            download
-                .image({
-                    url: lastImage.url,
-                    dest: config.imgLocation // Save to /path/to/dest/image.jpg
-                })
-                .then(({ filename, image }) => {
-                    console.log("File saved to", filename);
-                    io.emit("new");
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        }
+        msg.attachments.map(obj => {
+            const isImage = imageReg.test(obj.filename);
+
+            if (isImage) {
+                io.emit("new", obj.url);
+
+                download
+                    .image({
+                        url: obj.url,
+                        dest: config.imgLocation // Save to /path/to/dest/image.jpg
+                    })
+                    .then(({ filename, image }) => {
+                        console.log("[IMG] File saved to", filename, Date());
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
+            }
+        });
     }
+});
+
+io.on("connection", socket => {
+    socket.on("got the stuff?", yes => {
+        yes({ seconds: config.popupSeconds });
+    });
 });
 
 client.login(config.token);

@@ -14,6 +14,14 @@
             #image {
                 opacity: 0;
                 transition: opacity 1s;
+                max-width: 100%;
+                max-height: 100vh;
+
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%);
             }
 
             #image.show {
@@ -28,21 +36,43 @@
         <script>
             const socket = io("http://localhost:4000");
             const img = document.getElementById("image");
-            const imgLocation = "./image.jpg";
-            const interval = 10;
-            let timeout;
+            let interval;
+            let queue = [];
+            let running = false;
 
-            socket.on("new", () => {
-                const url = `${imgLocation}?${Math.random()}`;
+            socket.on("connect", yes => {
+                if (socket.connected) socket.emit("got the stuff?", stuff => (interval = stuff.seconds));
+            });
+
+            socket.on("new", url => {
+                queue.push(url);
+
+                let preloadImg = new Image();
+                preloadImg.onload = () => {
+                    if (!running) run();
+                };
+                preloadImg.src = url;
+            });
+
+            function run() {
+                running = true;
+                const url = queue.shift();
                 img.src = url;
-
                 img.classList.toggle("show");
 
-                timeout = setTimeout(() => {
+                setTimeout(() => {
                     img.classList.toggle("show");
+
+                    if (queue.length == 0) {
+                        running = false;
+                        return;
+                    }
+
+                    setTimeout(() => {
+                        run();
+                    }, 1000);
                 }, 1000 * interval);
-            });
-            // just super simple stuff.. not waiting for each image to finish..
+            }
         </script>
     </body>
 </html>
