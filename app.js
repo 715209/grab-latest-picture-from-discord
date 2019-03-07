@@ -10,8 +10,7 @@ client.on("ready", () => {
 });
 
 client.on("message", msg => {
-    const channel = msg.channel.id === config.channelId && msg.author.id === config.watchUserId ? true : false;
-    if (!channel) return;
+    if (!(config.channelIds.includes(msg.channel.id) && config.watchUserIds.includes(msg.author.id))) return;
 
     if (msg.attachments.size > 0) {
         const imageReg = /[\/.](gif|jpg|jpeg|tiff|png)$/i;
